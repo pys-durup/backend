@@ -28,4 +28,11 @@ public class BoardController {
         System.out.println(id);
         return boardService.getPost(id);
     }
+
+    @PatchMapping("/{id}")
+    public Long update(@PathVariable("id") Long id,
+                       @RequestBody PostDTO postDTO) {
+        // 수정할 글번호, 수정할 글정보
+        return boardService.updatePost(id, postDTO);
+    }
 }
