@@ -31,6 +31,11 @@ public class BoardService {
         return boardRepository.updatePost(postDTO.getTitle(), postDTO.getContent(), id);
     }
 
+    @Transactional
+    public long deletePost(Long id) {
+        return boardRepository.deletePost(id);
+    }
+
     static PostDTO toPostDTO(Post post) {
         PostDTO postDTO = PostDTO.builder()
                 .id(post.getId())

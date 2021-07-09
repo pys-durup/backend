@@ -11,4 +11,8 @@ public interface BoardRepository extends JpaRepository<Post, Long> {
     @Modifying
     @Query("UPDATE Post p SET p.title = :title, p.content = :content WHERE p.id = :id")
     int updatePost(String title, String content, Long id);
+
+    @Modifying
+    @Query("UPDATE Post p SET p.title = '삭제된 게시물', p.content = ' ' WHERE p.id = :id")
+    int deletePost(Long id);
 }

@@ -40,9 +40,18 @@ public class BoardController {
                        @RequestBody PostDTO postDTO) {
         // 수정할 글번호, 수정할 글정보
         log.debug("수정 글 번호 = {}, 제목 = {}, 내용 = {}",
-                        id, postDTO.getTitle(), postDTO.getContent());
+                id, postDTO.getTitle(), postDTO.getContent());
         long result = boardService.updatePost(id, postDTO);
-        log.info("글 수정 성공 - 글 번호 = {} ", id);
+        log.debug("글 수정 성공 - 글 번호 = {} ", id);
+        return result;
+    }
+
+    @DeleteMapping("/{id}")
+    public Long delete(@PathVariable("id") Long id) {
+
+        // 게시글 삭제시 게시글의 내용(content)만 삭제되도록 하고, 댓글은 삭제되지 않도록 처리
+        long result = boardService.deletePost(id);
+        log.debug("글 삭제 성공 - 글 번호 = {} ", id);
         return result;
     }
 }
