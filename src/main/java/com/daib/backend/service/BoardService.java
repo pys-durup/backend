@@ -82,4 +82,8 @@ public class BoardService {
     public long deleteComment(Long commentId) {
         return commentRepository.deleteComment(commentId);
     }
+
+    public List<Comment> getComments(Long id) {
+        return commentRepository.findAllByPostId(id);
+    }
 }

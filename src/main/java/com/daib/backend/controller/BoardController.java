@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/boards")
 public class BoardController {
@@ -88,4 +90,9 @@ public class BoardController {
         return result;
     }
 
+    // 댓글 목록
+    @GetMapping("/{id}/comments")
+    public List<Comment> getComments(@PathVariable("id") Long id) {
+        return boardService.getComments(id);
+    }
 }
