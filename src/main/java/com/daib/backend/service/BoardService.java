@@ -6,13 +6,18 @@ import com.daib.backend.dto.CommentDTO;
 import com.daib.backend.dto.PostDTO;
 import com.daib.backend.repository.BoardRepository;
 import com.daib.backend.repository.CommentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class BoardService {
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
     private BoardRepository boardRepository;
     private CommentRepository commentRepository;
 
@@ -28,7 +33,13 @@ public class BoardService {
 
     public PostDTO getPost(Long id) {
         Post post = boardRepository.getById(id);
-        return toPostDTO(post);
+
+        List<Comment> commentList = commentRepository.findAllByPostId(id);
+
+        PostDTO postDTO = toPostDTO(post);
+        postDTO.setCommentList(commentList);
+
+        return postDTO;
     }
 
     @Transactional
