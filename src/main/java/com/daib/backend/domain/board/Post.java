@@ -42,4 +42,9 @@ public class Post {
         this.createdAt = createdAt;
         this.commentList = commentList;
     }
+
+    public void addComment(Comment comment) {
+        comment.setPost(this);
+        this.commentList.add(comment);
+    }
 }

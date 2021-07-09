@@ -1,8 +1,11 @@
 package com.daib.backend.service;
 
+import com.daib.backend.domain.board.Comment;
 import com.daib.backend.domain.board.Post;
+import com.daib.backend.dto.CommentDTO;
 import com.daib.backend.dto.PostDTO;
 import com.daib.backend.repository.BoardRepository;
+import com.daib.backend.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class BoardService {
 
     private BoardRepository boardRepository;
+    private CommentRepository commentRepository;
 
     @Autowired
-    public BoardService(BoardRepository boardRepository) {
+    public BoardService(BoardRepository boardRepository, CommentRepository commentRepository) {
         this.boardRepository = boardRepository;
+        this.commentRepository = commentRepository;
     }
 
     public long savePost(PostDTO postDTO) {
@@ -46,5 +51,24 @@ public class BoardService {
                 .build();
 
         return postDTO;
+    }
+
+    public Comment saveComment(Long id, CommentDTO commentDTO) {
+        Post post = boardRepository.getById(id);
+
+        Comment comment = commentDTO.toEntity();
+        comment.setPost(post);
+
+        return commentRepository.save(comment);
+    }
+
+    @Transactional
+    public long updateComment(CommentDTO commentDTO, Long commentId) {
+        return commentRepository.updateComment(commentDTO.getContent(), commentId);
+    }
+
+    @Transactional
+    public long deleteComment(Long commentId) {
+        return commentRepository.deleteComment(commentId);
     }
 }
